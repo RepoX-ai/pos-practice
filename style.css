@@ -1,0 +1,313 @@
+/* =====================================================================
+   POS Practice - style.css
+   Simple styling. Colours are defined once as variables at the top, so
+   you can change the look of the whole page in one place.
+   ===================================================================== */
+
+:root {
+  --bg: #f4f5f7;            /* page background */
+  --card: #ffffff;          /* sections and product cards */
+  --text: #1f2933;          /* main text colour */
+  --muted: #6b7280;         /* lighter text */
+  --primary: #2563eb;       /* blue buttons */
+  --danger: #dc2626;        /* red buttons and error text */
+  --success: #15803d;       /* green messages */
+  --warning: #b45309;       /* orange text for low stock */
+  --warning-bg: #fef3c7;    /* light orange row background for low stock */
+  --border: #e5e7eb;        /* thin lines */
+  --input-border: #cbd5e1;  /* border of text boxes */
+}
+
+/* --- Basic reset: makes widths easier to reason about --- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* --- Top bar with title and navigation --- */
+.topbar {
+  position: sticky;         /* stays visible while scrolling */
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 12px 24px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.topbar nav a {
+  margin-right: 16px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.topbar nav a:hover {
+  text-decoration: underline;
+}
+
+/* --- Main content and sections --- */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  scroll-margin-top: 80px;  /* leave room for the sticky top bar when jumping to a #section */
+}
+
+section h2 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+}
+
+section h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* --- Product cards in a responsive grid --- */
+.product-grid {
+  display: grid;
+  /* as many 180px-wide columns as fit, stretched to fill the row */
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.product-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.product-card .category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.product-card .price {
+  margin: 0;
+  font-weight: 700;
+}
+
+/* "Stock: 12" line on each card; turns orange when stock is low */
+.product-card .stock {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.product-card .stock.low {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+/* push the button to the bottom of the card */
+.product-card button {
+  margin-top: auto;
+}
+
+/* --- Tables (cart, sales history, inventory, stock history) --- */
+.table-wrap {
+  overflow-x: auto;         /* scroll sideways on small screens */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+/* keep the contents of a cell on one line (e.g. an input next to a button) */
+.nowrap,
+.qty {
+  white-space: nowrap;
+}
+
+.qty span {
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.total {
+  font-size: 1.1rem;
+  text-align: right;
+  margin: 16px 0 0;
+}
+
+/* warning under an item name in the cart: "only 2 in stock" */
+.cart-warning {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--warning);
+}
+
+/* --- Inventory table --- */
+
+/* rows where stock is at or below the threshold */
+.low-stock td {
+  background: var(--warning-bg);
+}
+
+/* small number boxes inside the inventory table */
+.stock-input,
+.threshold-input,
+.restock-input {
+  width: 100px;
+}
+
+/* --- Stock history table: green for +, red for - --- */
+.plus {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.minus {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* --- Forms and inputs --- */
+input,
+select {
+  font: inherit;            /* same font as the rest of the page */
+  padding: 7px 10px;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+
+/* add-product form: labels and inputs in a responsive grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  align-items: end;         /* the button lines up with the inputs */
+  margin-bottom: 24px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;   /* label text above its input */
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.form-grid input {
+  width: 100%;
+}
+
+/* "Show: [All products]" dropdown above the stock history */
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* --- Buttons --- */
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--border);
+  color: var(--text);
+}
+
+.btn:hover {
+  filter: brightness(0.92);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-small {
+  padding: 4px 10px;
+  font-size: 0.9rem;
+}
+
+.btn-big {
+  padding: 12px 32px;
+  font-size: 1.1rem;
+}
+
+/* --- Short messages (e.g. "Payment successful!") --- */
+.message {
+  color: var(--success);
+  font-weight: 600;
+  min-height: 1.5em;        /* keep the space so the page doesn't jump */
+}
+
+.message.error {
+  color: var(--danger);
+}
